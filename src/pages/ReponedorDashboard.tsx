@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from 'react-router-dom';
-import { User, Map, Calendar, CheckCircle, AlertTriangle, LogOut } from 'lucide-react';
+import { User, Map, Calendar, CheckCircle, AlertTriangle, LogOut, Route } from 'lucide-react';
 import { ApiService, Tarea } from "@/services/api";
 
 const ReponedorDashboard = () => {
@@ -45,6 +45,13 @@ const ReponedorDashboard = () => {
       icon: AlertTriangle,
       path: '/reponedor-alertas',
       color: 'bg-red-500'
+    },
+    {
+      title: 'Ruta según tarea',
+      description: 'Genera y visualiza rutas optimizadas para tus tareas',
+      icon: Route,
+      path: '/reponedor-ruta-tarea',
+      color: 'bg-cyan-500'
     }
   ];
 

@@ -637,7 +637,18 @@ export class ApiService {
     }
 }
 
-// Nuevas funciones para obtener el mapa según el rol
+// Utilidad para obtener la URL base de la API
+function getApiUrl(path: string) {
+  const base = import.meta.env.VITE_API_URL || '';
+  if (base.endsWith('/') && path.startsWith('/')) {
+    return base + path.slice(1);
+  }
+  if (!base.endsWith('/') && !path.startsWith('/')) {
+    return base + '/' + path;
+  }
+  return base + path;
+}
+
 export async function getMapaReponedor(token: string, idMapa?: number) {
   const params = idMapa ? `?id_mapa=${idMapa}` : '';
   const response = await fetch(`${API_URL}/mapa/reponedor/vista${params}`, {
@@ -648,5 +659,39 @@ export async function getMapaReponedor(token: string, idMapa?: number) {
     }
   });
   if (!response.ok) throw new Error('No se pudo obtener el mapa del reponedor');
+  return await response.json();
+}
+
+export async function getMapaReponedorVista() {
+  const url = getApiUrl('/mapa/reponedor/vista');
+  console.log('Llamando a:', url);
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  });
+  const text = await response.text();
+  try {
+    const json = JSON.parse(text);
+    return json;
+  } catch (e) {
+    console.error('Respuesta no es JSON:', text);
+    throw new Error('Respuesta no es JSON: ' + text);
+  }
+}
+
+export async function getTareasReponedor() {
+  const url = getApiUrl('/tareas/reponedor');
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  });
+  if (!response.ok) throw new Error("No se pudo obtener las tareas");
+  return await response.json();
+}
+
+export async function generarRutaOptimizada(idTarea: number, algoritmo: string) {
+  const url = getApiUrl(`/tareas/${idTarea}/ruta-optimizada?algoritmo=${algoritmo}`);
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  });
+  if (!response.ok) throw new Error("No se pudo generar la ruta");
   return await response.json();
 }

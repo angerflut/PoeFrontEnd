@@ -31,6 +31,7 @@ import ReponedorMapPage from './pages/ReponedorMapPage';
 import ReponedorAlertas from './pages/ReponedorAlertas';
 import ReponedorSemanal from './pages/ReponedorSemanal';
 import AdminTareasPage from './pages/AdminTareasPage';
+import ReponedorRutaTarea from './pages/ReponedorRutaTarea';
 
 import './App.css';
 
@@ -141,6 +142,11 @@ function App() {
             <Route path="/reponedor-semanal" element={
               <ProtectedRoute allowedRoles={['reponedor']}>
                 <ReponedorSemanal />
+              </ProtectedRoute>
+            } />
+            <Route path="/reponedor-ruta-tarea" element={
+              <ProtectedRoute allowedRoles={['reponedor']}>
+                <ReponedorRutaTarea />
               </ProtectedRoute>
             } />
             
